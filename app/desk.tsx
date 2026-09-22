@@ -46,8 +46,8 @@ const helperStatuses = {
 type HelperStatus = keyof typeof helperStatuses;
 const helperStatusDescriptions = {
   ready: "A person is ready if a caller needs help beyond the live updates.",
-  busy: "A person is helping someone now. Holiday Helper can continue answering approved updates.",
-  off: "No one is monitoring requests. Holiday Helper only uses approved updates.",
+  busy: "A person is helping someone now. Holiday Hotline can continue answering approved updates.",
+  off: "No one is available for a handoff right now. Holiday Hotline only uses approved updates.",
 } as const;
 
 const responseChoices: Record<
@@ -176,32 +176,33 @@ export default function Desk() {
       <section className="desk">
         <div className="desk-heading">
           <div>
-            <div className="eyebrow">THE MANAGER DESK</div>
-            <h1>
-              Today’s details.
+          <div className="eyebrow">THE PRESHIFT DESK</div>
+          <h1>
+              Brief your digital employee
               <br />
-              <em>One less interruption.</em>
+              <em>before the rush.</em>
             </h1>
           </div>
           <ShieldCheck size={34} />
         </div>
         <div className="welcome-grid">
           <div className="welcome-card">
-            <span className="pill">TRY THE WORKFLOW</span>
-            <h2>A practice location for the busy day.</h2>
+            <span className="pill">TRY A PRESHIFT</span>
+            <h2>A practice location for the holiday rush.</h2>
             <p>
-              Add one brief, approve what callers can hear, and handle one
-              request that needs a person. No real calls or emails are sent.
+              Give Holiday Hotline a short update, approve what callers can
+              hear, and handle one request that needs a person. No real calls
+              or emails are sent.
             </p>
             <button className="primary" disabled={busy} onClick={openDemo}>
-              Open the practice desk <ArrowRight size={17} />
+              Take a practice PreShift <ArrowRight size={17} />
             </button>
           </div>
           <div className="welcome-card light">
-            <h2>Managing a real location?</h2>
+            <h2>Running a Holiday Hotline pilot?</h2>
             <p>
-              Sign in to keep your callers’ current information and requests in
-              one simple place.
+              Sign in for one place to brief your digital employee and manage
+              only the caller requests that need your team.
             </p>
             {!login ? (
               <button className="secondary" onClick={() => setLogin(true)}>
@@ -284,10 +285,10 @@ export default function Desk() {
   if (!store && invitation)
     return (
       <section className="desk">
-        <h1>Your organization desk.</h1>
+        <h1>Your PreShift desk.</h1>
         <p>
-          Your private {invitation.name} desk is ready for manager-reviewed
-          updates and caller requests.
+          Your private {invitation.name} desk is ready for manager-approved
+          PreShifts and Holiday Hotline requests.
         </p>
         <button
           className="primary"
@@ -320,10 +321,10 @@ export default function Desk() {
   if (!store)
     return (
       <section className="desk">
-        <h1>Your practice desk.</h1>
+        <h1>Your practice PreShift desk.</h1>
         <p>
-          Create a private practice location with sample updates. Nothing in a
-          practice desk is sent to a caller.
+          Create a private practice location with sample PreShifts. Nothing in
+          a practice desk is sent to a caller.
         </p>
         <button
           className="primary"
@@ -339,7 +340,7 @@ export default function Desk() {
             }
           }}
         >
-          Create my practice desk <ArrowRight size={17} />
+          Create my practice PreShift <ArrowRight size={17} />
         </button>
         <button className="text-button" onClick={() => void signOut()}>
           Sign out
@@ -479,20 +480,23 @@ function StoreDesk({
       <div className="desk-top">
         <div>
           <div className="eyebrow">
-            {store.isDemo ? "YOUR PRIVATE PRACTICE LOCATION" : "YOUR LOCATION"}
+            {store.isDemo
+              ? "PRESHIFT · PRIVATE PRACTICE LOCATION"
+              : "PRESHIFT · HOLIDAY HOTLINE PILOT"}
           </div>
           <h1>
-            {store.name}
+            Take a PreShift
             <span className="brand-star">✳</span>
           </h1>
+          <p className="desk-location">for {store.name}</p>
         </div>
         <div className="desk-actions">
           <div
             className="helper-status"
             role="group"
-            aria-label="Holiday Helper coverage"
+            aria-label="Human handoff coverage"
           >
-            <span>People available</span>
+            <span>Handoff coverage</span>
             {(Object.entries(helperStatuses) as [HelperStatus, string][]).map(
               ([status, label]) => (
                 <button
@@ -516,8 +520,8 @@ function StoreDesk({
       </div>
       {store.isDemo && (
         <div className="notice">
-          Practice mode · Fictional information. Replies stay previews, and no
-          calls or emails are sent.
+          Practice mode · Fictional information. Your PreShift and replies stay
+          previews; no calls or emails are sent.
         </div>
       )}
       <div className="desk-tabs">
@@ -525,13 +529,13 @@ function StoreDesk({
           className={section === "brief" ? "active" : ""}
           onClick={() => setSection("brief")}
         >
-          Today’s brief
+          Take a PreShift
         </button>
         <button
           className={section === "requests" ? "active" : ""}
           onClick={() => setSection("requests")}
         >
-          Caller requests{" "}
+          Hotline requests{" "}
           <span>
             {all.filter((request) => request.status === "waiting").length}
           </span>
@@ -621,7 +625,7 @@ function CallerRequests({
         </p>
       )}
       {requests === undefined ? (
-        <p role="status">Loading caller requests…</p>
+        <p role="status">Loading Holiday Hotline requests…</p>
       ) : !visible.length ? (
         <div className="empty">
           <MessageCircleMore size={34} />
@@ -659,7 +663,7 @@ function CallerRequests({
         </div>
       ) : (
         <div className="queue">
-          <aside className="request-list" aria-label="Caller requests">
+          <aside className="request-list" aria-label="Holiday Hotline requests">
             {visible.map((request) => (
               <button
                 key={request._id}
@@ -827,7 +831,7 @@ function Reply({ request, store }: { request: Request; store: Store }) {
           </div>
           <p className="fine">
             Send only information your team has confirmed. Pilot request details
-            are removed from Holiday Helper after seven days.
+            are removed from Holiday Hotline after seven days.
           </p>
         </>
       ) : (
@@ -1033,39 +1037,41 @@ function TodayBrief({
     <div className="facts">
       <div className="facts-heading">
         <div>
-          <h2>One place to keep Holiday Helper current.</h2>
+          <span className="eyebrow">YOUR DAILY PRESHIFT</span>
+          <h2>Tell Holiday Hotline what is different before the rush.</h2>
           <p>
-            Reception handles the conversation. This desk is the only place your
-            team changes what callers hear.
+            Take one short PreShift. Reception handles the conversation using
+            only what you approve here.
           </p>
         </div>
       </div>
       <form className="live-update-card" onSubmit={createManagerDrafts}>
         <div>
-          <span className="pill">TODAY’S BRIEF</span>
-          <h3>What is different right now?</h3>
+          <span className="pill">THE PRESHIFT ACTION</span>
+          <h3>What should your digital employee know today?</h3>
           <p>
             Say it naturally: a closure, special, event, service issue,
-            promotion, or anything callers should know before taking your team’s
-            time.
+            promotion, or anything callers should know before taking your
+            team’s time.
           </p>
         </div>
         <div className="brief-flow">
-          <span>1. Speak or type it</span>
+          <span>1. Take a PreShift</span>
           <ArrowRight size={15} />
-          <span>2. Review it</span>
+          <span>2. Review the answers</span>
           <ArrowRight size={15} />
-          <span>3. Put it on the line</span>
+          <span>3. Put them on Holiday Hotline</span>
         </div>
         <div className="source-of-truth">
           <CalendarClock size={19} />
           <div>
             <strong>
-              The manager’s approved brief is the live source of truth.
+              Your approved PreShift is the live source of truth.
             </strong>
             <p>
-              A website review can flag a possible mismatch, but it never
-              changes the phone line on its own.
+              You do not have to update a second system. A website review can
+              flag a possible mismatch, but it never changes the line on its
+              own.
             </p>
           </div>
         </div>
@@ -1110,11 +1116,11 @@ function TodayBrief({
             disabled={busy}
             onClick={() => void reviewWebsite()}
           >
-            Review the public website as a starting point
+            Review the public website for possible mismatches
           </button>
         )}
         <label>
-          Your brief
+          Today’s PreShift
           <textarea
             value={brief}
             onChange={(event) => setBrief(event.target.value)}
@@ -1133,15 +1139,15 @@ function TodayBrief({
           onClick={dictateBrief}
         >
           {listening ? <Square size={15} /> : <Mic size={17} />}
-          {listening ? "Listening — tap to stop" : "Dictate a brief"}
+          {listening ? "Listening — tap to stop" : "Speak your PreShift"}
         </button>
         <button className="primary" disabled={busy || !brief.trim()}>
           <Plus size={17} />
-          {busy ? "Preparing…" : "Prepare for approval"}
+          {busy ? "Preparing…" : "Prepare answers for approval"}
         </button>
         <p className="fine">
-          Holiday Helper prepares only the few caller answers your brief
-          supports. A manager approves every one.
+          PreShift prepares only the few caller answers your update supports.
+          A manager approves every one before Holiday Hotline uses it.
         </p>
       </form>
       {notice && (
@@ -1157,7 +1163,7 @@ function TodayBrief({
       <div className="facts-list-heading">
         <div>
           <h3>Review queue</h3>
-          <p>Drafts stay private until you put them on the phone line.</p>
+          <p>Drafts stay private until you put them on Holiday Hotline.</p>
         </div>
         <span className="counter">{drafts.length} waiting</span>
       </div>
@@ -1172,12 +1178,12 @@ function TodayBrief({
         ))
       ) : (
         <div className="small-empty">
-          No drafts waiting. Add one short brief when something changes.
+          No drafts waiting. Take a short PreShift when something changes.
         </div>
       )}
       <div className="facts-list-heading live-heading">
         <div>
-          <h3>On the phone line now</h3>
+          <h3>On Holiday Hotline now</h3>
           <p>Only these current, approved updates can be used in a call.</p>
         </div>
         <span className="counter">{live.length} live</span>
@@ -1255,7 +1261,7 @@ function UpdateCard({ update }: { update: Update }) {
           </span>
         </div>
         <label>
-          Question Holiday Helper can recognize
+          Question Holiday Hotline can recognize
           <input
             value={question}
             maxLength={300}

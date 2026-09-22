@@ -4,9 +4,9 @@ import "./globals.css";
 import Providers from "./providers";
 import { GithubLogoIcon } from "@phosphor-icons/react/dist/ssr";
 export const metadata: Metadata = {
-  title: "Holiday Hotline · Holiday Helper for local shops",
+  title: "PreShift · Holiday Hotline pilot",
   description:
-    "Holiday shopping questions? Call Holiday Helper for useful answers and a real connection to your local store.",
+    "Brief your digital employee before the rush. PreShift powers a Holiday Hotline with current, manager-approved answers.",
   icons: { icon: "/favicon.svg" },
 };
 export default function RootLayout({
