@@ -97,15 +97,15 @@ export default function Home() {
             </p>
             <div className="number-area">
               <span className="pill">
-                {hotline?.hotline ? "YOUR HOLIDAY HOTLINE" : "DEMO STORE"}
+                {hotline?.hotline ? "YOUR HOLIDAY HOTLINE" : "DEMO EXPERIENCE"}
               </span>
               <strong>
-                {hotline?.hotline ?? "Our line is getting ready."}
+                {hotline?.hotline ?? "Holiday Helper demo"}
               </strong>
               <span>
                 {hotline?.hotline
                   ? hotline.name
-                  : "A dedicated holiday number is being connected."}
+                  : "Manager-approved answers. A real person when needed."}
               </span>
             </div>
             {hotline?.hotline ? (
