@@ -3,8 +3,8 @@
 - **Project:** Holiday Hotline
 - **Event:** Convex All Gas Hackathon
 - **What it does:** Gives local managers one approval workflow to keep a voice hotline current, with associate follow-up when needed.
-- **Live app:** not deployed
-- **Repo:** private
+- **Live app:** https://holiday-hotline.sunshinefm.chatgpt.site
+- **Repo:** https://github.com/SunshineFM/holiday-hotline
 - **Frontend:** Codex Sites
 - **Convex deployment:** https://neighborly-curlew-329.convex.cloud
 - **Components:** none
@@ -12,7 +12,7 @@
 - **Auth:** Convex Auth
 - **AI models:** gpt-4.1-mini (website import and live-update drafts, not live-tested); GPT-5.4 Mini (saved in Reception UI, not call-tested)
 - **Started:** 2026-09-20T00:16:24Z
-- **Last updated:** 2026-09-22T10:31:00Z
+- **Last updated:** 2026-09-22T18:04:00Z
 
 ## Log
 
@@ -178,3 +178,17 @@ sent it through the configured AgentMail inbox, and the request recorded a
 provider message ID with no delivery error. This verifies the Convex-to-AgentMail
 handoff. It does not claim guaranteed inbox placement; that remains dependent
 on the provider and recipient mailbox.
+
+### 2026-09-22 - public hackathon release
+
+Published the tested Holiday Helper frontend to the public ChatGPT Site at
+https://holiday-hotline.sunshinefm.chatgpt.site and verified it returns its
+public landing page over HTTPS. Its production Convex backend is
+`wandering-raccoon-20`; its server-side configuration is set on that deployment
+and no values are stored in this repository. The source repository is public
+at https://github.com/SunshineFM/holiday-hotline.
+
+The public release includes the working manager-approved knowledge workflow and
+the manager-to-AgentMail handoff. The dedicated line, transfer rule, and
+production data are intentionally not presented as official DCF information;
+inbound audio and a completed transfer remain unverified.

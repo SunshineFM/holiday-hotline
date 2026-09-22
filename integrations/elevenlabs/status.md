@@ -29,5 +29,5 @@
 - Payments: no paid subscription selected
 
 The dedicated number and the knowledge webhook are configured, but the complete
-phone-to-associate-to-email workflow has not been demonstrated. The public Site
-remains unpublished.
+phone-to-associate-to-email workflow has not been demonstrated. The public ChatGPT Site is live; the dedicated phone line remains a clearly
+labeled product demonstration.

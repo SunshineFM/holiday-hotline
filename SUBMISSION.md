@@ -96,8 +96,8 @@ Show the site-review action and the “manager approval required” wording. End
 
 ## Before submitting
 
-- [ ] Replace the local-site placeholder with a public `chatgpt.site` URL and test it in a signed-out browser.
-- [ ] Make the GitHub repository public, push the source, and confirm `hackathon.md` is visible at the root.
+- [x] Publish and verify the public `chatgpt.site` URL: <https://holiday-hotline.sunshinefm.chatgpt.site>.
+- [x] Make the GitHub repository public and confirm `hackathon.md` is at the root: <https://github.com/SunshineFM/holiday-hotline>.
 - [ ] Perform and record one inbound phone test; record a transfer test only with an authorized destination.
 - [ ] Record and trim the video to no more than three minutes.
 - [ ] Submit at <https://vibeapps.dev/judging/convex-all-gas-hackathon-openai/submit>.
