@@ -171,6 +171,11 @@ export const bySlug = internalQuery({
       .withIndex("by_slug", (q) => q.eq("slug", a.slug))
       .unique(),
 });
+export const byId = internalQuery({
+  args: { id: v.id("stores") },
+  returns: v.union(schema.doc("stores"), v.null()),
+  handler: async (ctx, args) => await ctx.db.get("stores", args.id),
+});
 export const publicHotline = query({
   args: {},
   returns: v.object({
@@ -179,13 +184,13 @@ export const publicHotline = query({
   }),
   handler: async (ctx) => {
     const slug = env.HOTLINE_STORE_SLUG;
-    if (!slug) return { name: "Holiday Hotline", hotline: null };
+    if (!slug) return { name: "Holiday Helper", hotline: null };
     const store = await ctx.db
       .query("stores")
       .withIndex("by_slug", (q) => q.eq("slug", slug))
       .unique();
     return {
-      name: store?.name ?? "Holiday Hotline",
+      name: store?.name ?? "Holiday Helper",
       hotline: store && !store.isDemo ? (store.hotline ?? null) : null,
     };
   },

@@ -4,6 +4,8 @@ import { ownedStore } from "./stores";
 
 const helperStatus = v.union(
   v.literal("ready"),
+  v.literal("busy"),
+  // Existing manager sessions can retain this value during the upgrade.
   v.literal("with-shopper"),
   v.literal("off"),
 );

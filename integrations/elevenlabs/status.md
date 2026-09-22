@@ -2,32 +2,24 @@
 
 - Workspace: Holiday Hotline — Demo
 - Receptionist: Holiday Helper · DCF Demo
-- Customer-facing greeting: “Holiday Helper! You’ve reached the Desert Community
-  Foundation demo line. How can I help?”
-- Scope: clearly labeled product demonstration; not an official Foundation
-  information, donor-support, or emergency service
+- Customer-facing greeting: “Holiday Helper! You’ve reached the Desert Community Foundation demo line. How can I help?”
+- Scope: clearly labeled product demonstration; not an official Foundation information, donor-support, or emergency service
 - Model: GPT-5.4 Mini, reasoning effort None
 - Voice: Jason stock voice
-- Knowledge connection: the Reception instructions use an authenticated Convex
-  `get_currently_verified_holiday_updates` webhook for manager-approved live
-  updates from the DCF demonstration desk. A text chat verified the full
-  request and answer path.
-- Privacy and operations: no bookings, registrations, client lookup, messages,
-  callbacks, or payments are enabled. A human-transfer rule is configured for
-  questions the line cannot verify or callers who ask for a person; its live
-  transfer behavior remains untested. Opt-in email follow-up is staged through
-  the separate manager desk workflow.
-- Procedures: all five inherited booking, registration, change, and callback
-  procedures are explicitly disabled and contain no operational steps
-- Associate desk: real-time Holiday Helper coverage is deployed with Ready,
-  Helping, and Not staffed states; managers use one Live updates card while
-  Reception's native overview remains one-time setup only
-- Verified: a manager-approved Thanksgiving Day closure was retrieved through
-  Convex and answered correctly in Reception text chat.
-- Unverified: consented email delivery, completed human transfer, and inbound
-  audio call
-- Payments: no paid subscription selected
+- Knowledge connection: the current DCF demonstration uses an authenticated Convex webhook for manager-approved live updates. A Reception text chat verified the request and answer path for an approved Thanksgiving closure.
+- Manager workflow: the updated desk uses one operating brief, a review queue, and individual approval. Reception’s native overview is one-time setup only; managers do not update the same facts in two places.
+- Human exception: a Reception transfer rule is saved for requests to speak with a person, questions that go beyond approved information, or facts Holiday Helper cannot verify.
+- Email follow-up: the separate manager desk supports a caller-consented request and a manager-reviewed AgentMail response. Its provider handoff has been tested; live Reception request-tool mapping remains to be configured and tested.
+- Payments and sensitive workflows: no payments, bookings, client lookup, registrations, messages, callbacks, or data collection are enabled.
 
-The dedicated number and the knowledge webhook are configured, but the complete
-phone-to-associate-to-email workflow has not been demonstrated. The public ChatGPT Site is live; the dedicated phone line remains a clearly
-labeled product demonstration.
+## Migration state
+
+The existing DCF tool still uses the original single-pilot `/hotline/knowledge` endpoint. New location-scoped endpoints are now available for every new organization, with a distinct route key and secret hash. Move the DCF demo to that route only during an authorized live test, so the existing demonstration remains stable.
+
+## Remaining live checks
+
+- Place and listen to an inbound call on the dedicated number.
+- Confirm the saved human-transfer rule reaches an authorized destination.
+- Enable and test the explicit-consent request tool in Reception.
+- Confirm the AgentMail message reaches an approved inbox recipient.
+- Migrate the DCF tool to its new scoped connection before adding a second location.

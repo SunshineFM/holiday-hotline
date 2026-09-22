@@ -849,7 +849,9 @@ textarea {
 .live-update-card h3,
 .facts-list-heading h3 {
   margin: 11px 0 5px;
-  font: 400 24px/1.2 Georgia, serif;
+  font:
+    400 24px/1.2 Georgia,
+    serif;
   letter-spacing: -0.3px;
 }
 .live-update-card p,
@@ -1090,5 +1092,120 @@ textarea {
   .desk-tabs {
     gap: 24px;
     font-size: 14px;
+  }
+}
+
+.brief-flow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  color: #52665d;
+  font-size: 13px;
+  font-weight: 600;
+}
+.brief-flow svg {
+  color: #a33345;
+}
+.scope-picker {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.scope-picker button {
+  display: grid;
+  gap: 4px;
+  text-align: left;
+  padding: 14px;
+  color: #52665d;
+  background: #fff;
+  border: 1px solid #c8d4c6;
+  border-radius: 9px;
+}
+.scope-picker button.active {
+  border-color: #153f36;
+  background: #e9eee6;
+  color: #153f36;
+}
+.scope-picker strong {
+  font-size: 14px;
+}
+.scope-picker span {
+  font-size: 12px;
+  line-height: 1.35;
+}
+.through-date {
+  max-width: 260px;
+}
+.counter {
+  align-self: center;
+  color: #52665d;
+  background: #e9eee6;
+  padding: 7px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.live-heading {
+  margin-top: 42px;
+}
+.small-empty {
+  border: 1px dashed #bdcabe;
+  border-radius: 11px;
+  padding: 20px;
+  background: #fff;
+  color: #52665d;
+  font-size: 14px;
+}
+.approved-card {
+  border-color: #acc4ae;
+  border-left: 4px solid #3d7b53;
+}
+.approved-card .fact-count {
+  color: #3d7b53;
+}
+.update-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.source-label {
+  color: #65776a;
+  font-size: 12px;
+}
+.update-options {
+  display: flex;
+  align-items: end;
+  gap: 15px;
+}
+.update-options label {
+  flex: 1;
+}
+.update-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.primary.small {
+  padding: 10px 13px;
+  font-size: 14px;
+}
+@media (max-width: 680px) {
+  .scope-picker {
+    grid-template-columns: 1fr;
+  }
+  .update-options {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .update-card-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .fact-bottom {
+    align-items: flex-start;
+    flex-direction: column;
   }
 }

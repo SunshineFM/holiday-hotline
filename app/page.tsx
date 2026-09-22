@@ -1,21 +1,23 @@
 "use client";
+
 import Link from "next/link";
 import { useState } from "react";
-import Desk from "./desk";
 import { useQuery } from "convex/react";
-import { api } from "../convex/_generated/api";
 import {
-  Phone,
-  ArrowUpRight,
-  ShoppingBag,
-  Gift,
-  Clock3,
-  MapPin,
-  Headphones,
   ArrowRight,
+  ArrowUpRight,
+  CalendarClock,
+  Headphones,
+  MapPin,
+  MessageCircleMore,
+  Phone,
+  UserRoundCheck,
 } from "lucide-react";
+import { api } from "../convex/_generated/api";
+import Desk from "./desk";
+
 export default function Home() {
-  const [tab, setTab] = useState("hotline");
+  const [tab, setTab] = useState<"hotline" | "desk">("hotline");
   const hotline = useQuery(api.stores.publicHotline);
   return (
     <main>
@@ -38,12 +40,12 @@ export default function Home() {
             className={tab === "desk" ? "selected" : ""}
             onClick={() => setTab("desk")}
           >
-            Associate desk <ArrowUpRight size={15} />
+            Manager desk <ArrowUpRight size={15} />
           </button>
         </nav>
       </header>
       <div className="season">
-        <span>LOCAL SHOPS. A LITTLE EXTRA HELP.</span>
+        <span>LOCAL PLACES. USEFUL RIGHT NOW.</span>
         <span>THANKSGIVING — NEW YEAR’S DAY</span>
       </div>
       {tab === "hotline" ? (
@@ -51,39 +53,40 @@ export default function Home() {
           <div className="hero-copy">
             <div className="eyebrow">
               <span className="small-rule" />
-              EL PASEO · HOLIDAY SHOPPING
+              LOCAL OPERATIONS · HOLIDAY SEASON
             </div>
             <h1>
-              A little help.
-              <br />A little more <em>holiday.</em>
+              What’s different
+              <br />
+              <em>today?</em> A helpful answer.
             </h1>
             <p className="intro">
-              Shopping questions? Call Holiday Helper. It handles the first
-              question and brings in someone at the store when you need a
-              closer look.
+              Holiday Helper has a natural first conversation, using the live
+              details your team approved today. When someone needs a person, it
+              brings one in.
             </p>
             <div className="chips">
               <span>
-                <Clock3 size={16} />
-                Holiday hours
+                <CalendarClock size={16} /> Today’s changes
               </span>
               <span>
-                <Gift size={16} />
-                Gift wrapping
+                <MessageCircleMore size={16} /> Helpful first answer
               </span>
               <span>
-                <ShoppingBag size={16} />
-                Item checks
+                <UserRoundCheck size={16} /> A person when needed
               </span>
             </div>
             <div className="local-note">
               <MapPin size={18} />
-              <span>Made for local shops. And the people who love them.</span>
+              <span>
+                For independent stores, restaurants, clubs, and community
+                places.
+              </span>
             </div>
           </div>
           <div className="hotline-card">
             <div className="card-top">
-              <span>YOUR HOLIDAY SHOPPING HELPER</span>
+              <span>YOUR LIVE INFORMATION HELPER</span>
               <Headphones size={22} />
             </div>
             <div className="helper-mark">
@@ -93,15 +96,15 @@ export default function Home() {
             <p>
               One quick call. A helpful conversation.
               <br />
-              One less thing on your list.
+              One less interruption for your team.
             </p>
             <div className="number-area">
               <span className="pill">
-                {hotline?.hotline ? "YOUR HOLIDAY HOTLINE" : "DEMO EXPERIENCE"}
+                {hotline?.hotline
+                  ? "YOUR HOLIDAY HELPER LINE"
+                  : "DEMO EXPERIENCE"}
               </span>
-              <strong>
-                {hotline?.hotline ?? "Holiday Helper demo"}
-              </strong>
+              <strong>{hotline?.hotline ?? "Holiday Helper demo"}</strong>
               <span>
                 {hotline?.hotline
                   ? hotline.name
@@ -115,12 +118,12 @@ export default function Home() {
               </a>
             ) : (
               <button className="primary" onClick={() => setTab("desk")}>
-                Explore the associate desk <ArrowRight size={18} />
+                Explore the manager desk <ArrowRight size={18} />
               </button>
             )}
             <div className="card-foot">
-              Holiday Helper handles the first question. A real associate is
-              close by when needed.
+              Your team keeps one simple brief current. Reception handles the
+              conversation.
             </div>
           </div>
         </section>
@@ -131,7 +134,7 @@ export default function Home() {
         <span>
           holiday hotline <span className="brand-star">✳</span>
         </span>
-        <span>A little more presence. A little less phone tag.</span>
+        <span>Today’s truth. A more helpful call.</span>
         <span>BY SHOPFORCE</span>
       </footer>
     </main>

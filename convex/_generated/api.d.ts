@@ -10,11 +10,13 @@
 
 import type * as auth from "../auth.js";
 import type * as delivery from "../delivery.js";
+import type * as hotlines from "../hotlines.js";
 import type * as http from "../http.js";
 import type * as onboarding from "../onboarding.js";
 import type * as presence from "../presence.js";
 import type * as requests from "../requests.js";
 import type * as stores from "../stores.js";
+import type * as updates from "../updates.js";
 
 import type {
   ApiFromModules,
@@ -25,11 +27,13 @@ import type {
 declare const fullApi: ApiFromModules<{
   auth: typeof auth;
   delivery: typeof delivery;
+  hotlines: typeof hotlines;
   http: typeof http;
   onboarding: typeof onboarding;
   presence: typeof presence;
   requests: typeof requests;
   stores: typeof stores;
+  updates: typeof updates;
 }>;
 
 /**

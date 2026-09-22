@@ -1,58 +1,73 @@
 # Holiday Helper
 
-**A manager-approved holiday hotline for local businesses and community organizations.**
+**A live phone helper for the operational details that change today.**
 
-Holiday Helper gives a busy local team one place to keep its public, time-sensitive information current. A manager types or dictates a short Holiday Brief, reviews the few updates it produces, and approves them. The phone agent then answers only from those approved, unexpired updates. When it cannot verify an answer, it can hand the caller to a person or—with the caller’s permission—create a concise follow-up request for an associate.
+Holiday Helper gives a busy local team one short place to say what is different now: a special, closure, event, service change, promotion, or exception. The team reviews the small set of caller answers it produces and chooses what goes live. During a call, ElevenLabs Reception retrieves only the currently effective, manager-approved updates from Convex. When a caller needs more, Reception can use its human-transfer rule or—with consent—create a concise request for the team to answer by email.
 
-The first demonstration uses a clearly labeled Desert Community Foundation demo line. It is not an official Foundation service.
+The first demonstration uses a clearly labeled Desert Community Foundation line. It is not an official Foundation information, donor-support, or emergency service.
 
-## Why it matters
-
-During the holidays, a local store or community organization gets questions that are easy to answer but expensive in interruption time: *Are you open? Is gift wrapping available? Did the event move? Can someone check a size?* Information across websites, listings, phone messages, and search results is often old.
-
-Holiday Helper treats the manager’s latest approved update as the source of truth for the season. It is deliberately not a forum, a CRM, a payment workflow, or a connector to a retailer’s POS.
-
-## How it works
+## The product loop
 
 ```mermaid
 flowchart LR
-  M[Manager: one Holiday Brief] --> O[OpenAI: concise review drafts]
-  F[Firecrawl: public-page starting drafts] --> O
+  M[Manager: one daily brief] --> O[OpenAI: review drafts]
+  F[Firecrawl: public-page audit] --> O
   O --> A[Manager approves]
-  A --> C[(Convex: live, approved facts)]
-  C --> R[ElevenLabs Reception: Holiday Helper]
+  A --> C[(Convex: live updates)]
+  C --> R[ElevenLabs Reception]
   R --> Q{Can it verify the answer?}
-  Q -->|Yes| V[Caller gets the current answer]
-  Q -->|Needs a person| H[Human transfer rule]
-  Q -->|Caller opts in| E[Associate reply]
-  E --> AM[AgentMail follow-up]
+  Q -->|Yes| V[Helpful current answer]
+  Q -->|Needs a person| H[Reception transfer rule]
+  Q -->|Caller opts in| D[Team response]
+  D --> AM[AgentMail email]
 ```
 
-1. **One manager card.** The Holiday Brief accepts plain language or browser dictation. It creates a small, reviewable set of updates instead of a large FAQ to maintain.
-2. **Human approval before voice use.** Nothing drafted from a website or an AI model appears on the line until the manager explicitly approves it.
-3. **Live answers.** The Reception agent retrieves only manager-approved, unexpired information from an authenticated Convex HTTP endpoint at answer time.
-4. **A person when it matters.** The agent handles verified routine questions, hands off questions it cannot verify under a Reception transfer rule, and can request a manager-reviewed email follow-up only after a caller consents.
-5. **Limited retention.** Pilot follow-up requests and any attached item photos are scheduled for deletion after seven days.
+1. **One manager desk.** The team speaks or types a short daily brief, reviews it, and approves it. Reception's greeting, voice, number, and transfer target are one-time setup, not a second update workflow.
+2. **Time-aware information.** Each update is marked _today only_, _temporary_, or _ongoing_. Today and temporary updates leave the line automatically at the chosen local end date.
+3. **Human approval before voice use.** Website or AI suggestions are drafts. Nothing reaches callers until a manager puts it on the line.
+4. **A real person when it matters.** The agent answers what it can verify, then follows the configured Reception transfer rule or creates a consented email request for a person to finish.
+5. **Minimal retention.** Requests and optional photos are scheduled for deletion after seven days.
 
-## Sponsor technologies
+## Product architecture
 
-| Technology | Role in Holiday Helper |
-| --- | --- |
-| **Convex** | Source of truth for facts and requests, live desk updates, authenticated HTTP tool, access checks, scheduled retention cleanup, and the AgentMail delivery workflow. |
-| **OpenAI** | Turns a manager’s unstructured seasonal note into a small set of concise review drafts. |
-| **Firecrawl** | Checks a public website for dated, holiday-specific operations details and proposes starting drafts for review. It does not automatically publish web content. |
-| **AgentMail** | Sends a manager-reviewed email follow-up from the Holiday Hotline inbox after a caller has explicitly opted in. |
-| **ElevenLabs Reception** | Runs the dedicated phone experience and calls the Convex knowledge tool during a conversation. |
+| Technology               | Role                                                                                                                                                                                    |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Convex**               | Stores durable briefs and updates, serves real-time phone knowledge, scopes each location’s connection, powers the manager queue, applies access checks, and schedules request cleanup. |
+| **OpenAI**               | Turns a manager’s unstructured operating brief into a few concise drafts for approval.                                                                                                  |
+| **Firecrawl**            | Audits a public page for dated, current operations details. It creates review suggestions and never publishes automatically.                                                            |
+| **ElevenLabs Reception** | Runs the conversation, retrieves live verified updates, and handles a configured human transfer.                                                                                        |
+| **AgentMail**            | Sends a manager-reviewed reply after a caller explicitly consents to email.                                                                                                             |
 
-## What has been verified
+## Location routing
 
-- A manager entered and approved five seasonal closure facts through the one-card flow.
-- In ElevenLabs Reception text chat, the live agent called the authenticated Convex endpoint and correctly answered that the DCF demo office is closed on Thanksgiving Day.
-- A human-transfer rule is configured in Reception for questions a person needs to handle.
-- AgentMail is connected to the Convex reply workflow. A manager-reviewed reply to an explicitly approved test recipient completed with a provider message ID and no delivery error.
-- TypeScript, ESLint, the Sites production build, and the Convex development deployment have passed.
+Each business or location has its own phone connection. New connections use a unique, authenticated route such as:
 
-The dedicated phone number, a live audio conversation, and a completed call transfer remain the final demonstration checks. The app is intentionally not positioned as an official information channel until a pilot organization approves its information and operating policy.
+```text
+/hotline/v1/<location-route-key>/knowledge
+/hotline/v1/<location-route-key>/requests
+```
+
+The route key selects the location; the provider supplies a separate one-time secret header. Convex stores only a hash of that secret. This replaces the original single-pilot routing pattern while retaining the original DCF route during its controlled migration.
+
+A dedicated number for each location, or forwarding from an existing number, is the right first pilot model. A shared district concierge can become a separate product once the per-location workflow is proven.
+
+## Pilot readiness
+
+Verified in the project:
+
+- A manager’s brief can become persistent review drafts and individually approved live updates.
+- Existing approved facts automatically migrate into the new durable update history when a manager opens the desk.
+- ElevenLabs Reception text chat previously retrieved an approved DCF closure through the authenticated Convex tool.
+- A human-transfer rule is saved in Reception.
+- A manager-reviewed AgentMail reply was accepted by the provider with a message ID.
+- TypeScript, ESLint, and the Sites production build pass.
+
+Still requiring a live, authorized pilot check:
+
+- An inbound audio call through the dedicated number.
+- A completed transfer to an approved destination.
+- A consented request created by Reception and a confirmed inbox delivery.
+- Moving the existing DCF Reception tool from its legacy single-pilot route to the new location-scoped route.
 
 ## Local development
 
@@ -63,4 +78,4 @@ npm run lint
 npm run build
 ```
 
-This project uses a private Convex development deployment during development. Provider credentials are environment variables and are never stored in source control. See [hackathon.md](hackathon.md) for the evidence-backed build log and [SUBMISSION.md](SUBMISSION.md) for the hackathon entry and demo package.
+`npm run test:local` exercises the isolated local Convex backend, including cross-location access checks, update approval, connection provisioning, request idempotency, photo ownership, and protected webhooks. Provider keys remain Convex environment variables and are never checked into source.
